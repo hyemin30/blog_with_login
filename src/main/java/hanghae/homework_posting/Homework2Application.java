@@ -1,4 +1,4 @@
-package hanghae.homework2;
+package hanghae.homework_posting;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

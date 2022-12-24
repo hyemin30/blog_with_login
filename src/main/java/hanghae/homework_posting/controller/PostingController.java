@@ -1,8 +1,8 @@
-package hanghae.homework2.controller;
+package hanghae.homework_posting.controller;
 
-import hanghae.homework2.dto.PostingRequestDto;
-import hanghae.homework2.entity.Posting;
-import hanghae.homework2.service.PostingService;
+import hanghae.homework_posting.dto.PostingRequestDto;
+import hanghae.homework_posting.entity.Posting;
+import hanghae.homework_posting.service.PostingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,7 +30,7 @@ public class PostingController {
     }
 
     @PutMapping("/postings/{id}")
-    public Long updatePosting(@PathVariable Long id, @RequestBody PostingRequestDto requestDto) {
+    public Posting updatePosting(@PathVariable Long id, @RequestBody PostingRequestDto requestDto) {
         return postingService.update(id, requestDto);
     }
 
@@ -40,7 +40,7 @@ public class PostingController {
     }
 
     @DeleteMapping("/postings/{id}")
-    public Long deletePosting(@PathVariable Long id) {
-        return postingService.deletePosting(id);
+    public String deletePosting(@PathVariable Long id, @RequestBody PostingRequestDto requestDto) {
+        return postingService.deletePosting(id, requestDto);
     }
 }

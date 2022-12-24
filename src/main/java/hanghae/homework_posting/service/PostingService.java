@@ -1,10 +1,8 @@
-package hanghae.homework2.service;
+package hanghae.homework_posting.service;
 
-import hanghae.homework2.dto.NoPwdPostingRequestDto;
-import hanghae.homework2.dto.PostingRequestDto;
-import hanghae.homework2.entity.NoPwdPosting;
-import hanghae.homework2.entity.Posting;
-import hanghae.homework2.repository.PostingRepository;
+import hanghae.homework_posting.dto.PostingRequestDto;
+import hanghae.homework_posting.entity.Posting;
+import hanghae.homework_posting.repository.PostingRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -30,13 +28,17 @@ public class PostingService {
     }
 
     @Transactional
-    public Long update(Long id, PostingRequestDto requestDto) {
+    public Posting update(Long id, PostingRequestDto requestDto) {
         Posting posting = postingRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("아이디가 존재하지 않습니다")
         );
 
-        posting.update(requestDto);
-        return posting.getId();
+        if (posting.getPassword().equals(requestDto.getPassword())) {
+            posting.update(requestDto);
+        } else {
+            new IllegalArgumentException("비밀번호가 일치하지 않습니다");
+        }
+        return posting;
     }
 
     @Transactional
@@ -48,9 +50,19 @@ public class PostingService {
     }
 
     @Transactional
-    public Long deletePosting(Long id) {
-        postingRepository.deleteById(id);
-        return id;
+    public String deletePosting(Long id, PostingRequestDto requestDto) {
+        Posting posting = postingRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("아이디가 존재하지 않습니다")
+        );
+
+        if (posting.getPassword().equals(requestDto.getPassword())) {
+            postingRepository.deleteById(id);
+            return "성공";
+        } else {
+            new IllegalArgumentException("비밀번호가 일치하지 않습니다");
+        }
+
+        return "실패";
     }
 
 

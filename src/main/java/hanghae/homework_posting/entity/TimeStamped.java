@@ -1,4 +1,4 @@
-package hanghae.homework2.entity;
+package hanghae.homework_posting.entity;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;

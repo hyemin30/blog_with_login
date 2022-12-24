@@ -1,9 +1,9 @@
-package hanghae.homework2.dto;
+package hanghae.homework_posting.dto;
 
 import lombok.Getter;
 
 @Getter
-public class NoPwdPostingRequestDto {
+public class PostingRequestDto {
 
     private String username;
     private String title;

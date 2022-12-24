@@ -1,6 +1,6 @@
-package hanghae.homework2.entity;
+package hanghae.homework_posting.entity;
 
-import hanghae.homework2.dto.PostingRequestDto;
+import hanghae.homework_posting.dto.PostingRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
