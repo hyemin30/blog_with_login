@@ -4,6 +4,8 @@ import hanghae.homework_posting.dto.PostingRequestDto;
 import hanghae.homework_posting.entity.Posting;
 import hanghae.homework_posting.repository.PostingRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -64,6 +66,7 @@ public class PostingService {
 
         return "실패";
     }
+
 
 
 }
