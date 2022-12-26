@@ -1,6 +1,7 @@
 package hanghae.homework_posting.service;
 
 import hanghae.homework_posting.dto.PostingRequestDto;
+import hanghae.homework_posting.dto.PostingResponse;
 import hanghae.homework_posting.dto.PostingResponseDto;
 import hanghae.homework_posting.entity.Posting;
 import hanghae.homework_posting.repository.PostingRepository;
@@ -10,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -21,19 +24,24 @@ public class PostingService {
     ModelMapper modelMapper = new ModelMapper();
 
     @Transactional
-    public Posting createPosting(PostingRequestDto requestDto) {
+    public Long createPosting(PostingRequestDto requestDto) {
         Posting posting = new Posting(requestDto);
         postingRepository.save(posting);
-        return posting;
+        return posting.getId();
     }
 
     @Transactional
-    public List<PostingResponseDto> getPostings() {
-        return postingRepository.findAllByOrderByModifiedAtDesc();
+    public List<PostingResponse> getPostings() {
+        List<Posting> postings = postingRepository.findAllByOrderByModifiedAtDesc();
+        List<PostingResponse> responses = new ArrayList<>();
+        for (Posting posting : postings) {
+            responses.add(new PostingResponse(posting.getId(),posting));
+        }
+        return responses;
     }
 
     @Transactional
-    public Posting update(Long id, PostingRequestDto requestDto) {
+    public PostingResponse update(Long id, PostingRequestDto requestDto) {
         Posting posting = postingRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("아이디가 존재하지 않습니다")
         );
@@ -41,19 +49,17 @@ public class PostingService {
         if (posting.getPassword().equals(requestDto.getPassword())) {
             posting.update(requestDto);
         } else {
-            new IllegalArgumentException("비밀번호가 일치하지 않습니다");
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다");
         }
-        return posting;
+        return new PostingResponse(id, posting);
     }
 
     @Transactional
-    public PostingResponseDto getPosting(Long id) {
+    public PostingResponse getPosting(Long id) {
         Posting posting = postingRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("아이디가 존재하지 않습니다")
         );
-        PostingResponseDto dto = modelMapper.map(posting, PostingResponseDto.class);
-
-        return dto;
+        return new PostingResponse(id, posting);
     }
 
     @Transactional
@@ -66,10 +72,9 @@ public class PostingService {
             postingRepository.deleteById(id);
             return "성공";
         } else {
-            new IllegalArgumentException("비밀번호가 일치하지 않습니다");
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다");
         }
 
-        return "실패";
     }
 
 

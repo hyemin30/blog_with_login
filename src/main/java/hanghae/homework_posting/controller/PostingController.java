@@ -1,8 +1,7 @@
 package hanghae.homework_posting.controller;
 
 import hanghae.homework_posting.dto.PostingRequestDto;
-import hanghae.homework_posting.dto.PostingResponseDto;
-import hanghae.homework_posting.entity.Posting;
+import hanghae.homework_posting.dto.PostingResponse;
 import hanghae.homework_posting.service.PostingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -21,22 +20,23 @@ public class PostingController {
     }
 
     @PostMapping("/postings")
-    public Posting createPosting(@RequestBody PostingRequestDto requestDto) {
-        return postingService.createPosting(requestDto);
+    public PostingResponse createPosting(@RequestBody PostingRequestDto requestDto) {
+        Long id = postingService.createPosting(requestDto);
+        return postingService.getPosting(id);
     }
 
     @GetMapping("/postings")
-    public List<PostingResponseDto> getPostings() {
+    public List<PostingResponse> getPostings() {
         return postingService.getPostings();
     }
 
     @PutMapping("/postings/{id}")
-    public Posting updatePosting(@PathVariable Long id, @RequestBody PostingRequestDto requestDto) {
+    public PostingResponse updatePosting(@PathVariable Long id, @RequestBody PostingRequestDto requestDto) {
         return postingService.update(id, requestDto);
     }
 
     @GetMapping("/postings/{id}")
-    public PostingResponseDto getPosting(@PathVariable Long id) {
+    public PostingResponse getPosting(@PathVariable Long id) {
         return postingService.getPosting(id);
     }
 
