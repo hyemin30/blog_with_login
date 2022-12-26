@@ -1,11 +1,12 @@
 package hanghae.homework_posting.service;
 
 import hanghae.homework_posting.dto.PostingRequestDto;
+import hanghae.homework_posting.dto.PostingResponseDto;
 import hanghae.homework_posting.entity.Posting;
 import hanghae.homework_posting.repository.PostingRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -17,6 +18,8 @@ public class PostingService {
 
     private final PostingRepository postingRepository;
 
+    ModelMapper modelMapper = new ModelMapper();
+
     @Transactional
     public Posting createPosting(PostingRequestDto requestDto) {
         Posting posting = new Posting(requestDto);
@@ -25,7 +28,7 @@ public class PostingService {
     }
 
     @Transactional
-    public List<Posting> getPostings() {
+    public List<PostingResponseDto> getPostings() {
         return postingRepository.findAllByOrderByModifiedAtDesc();
     }
 
@@ -44,11 +47,13 @@ public class PostingService {
     }
 
     @Transactional
-    public Posting getPosting(Long id) {
+    public PostingResponseDto getPosting(Long id) {
         Posting posting = postingRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("아이디가 존재하지 않습니다")
         );
-        return posting;
+        PostingResponseDto dto = modelMapper.map(posting, PostingResponseDto.class);
+
+        return dto;
     }
 
     @Transactional

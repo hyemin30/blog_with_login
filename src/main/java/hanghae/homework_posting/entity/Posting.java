@@ -24,13 +24,6 @@ public class Posting extends TimeStamped {
     @Column(nullable = false, updatable = false)
     private String password;
 
-    public Posting(String username, String title, String content, String password) {
-        this.username = username;
-        this.title = title;
-        this.content = content;
-        this.password = password;
-    }
-
     public Posting(PostingRequestDto requestDto) {
         this.username = requestDto.getUsername();
         this.title = requestDto.getTitle();
@@ -44,8 +37,4 @@ public class Posting extends TimeStamped {
         this.title = requestDto.getTitle();
         this.content = requestDto.getContent();
     }
-
-
-
-
 }

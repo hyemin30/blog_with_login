@@ -1,6 +1,7 @@
 package hanghae.homework_posting.controller;
 
 import hanghae.homework_posting.dto.PostingRequestDto;
+import hanghae.homework_posting.dto.PostingResponseDto;
 import hanghae.homework_posting.entity.Posting;
 import hanghae.homework_posting.service.PostingService;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,7 @@ public class PostingController {
     }
 
     @GetMapping("/postings")
-    public List<Posting> getPostings() {
+    public List<PostingResponseDto> getPostings() {
         return postingService.getPostings();
     }
 
@@ -35,7 +36,7 @@ public class PostingController {
     }
 
     @GetMapping("/postings/{id}")
-    public Posting getPosting(@PathVariable Long id) {
+    public PostingResponseDto getPosting(@PathVariable Long id) {
         return postingService.getPosting(id);
     }
 
