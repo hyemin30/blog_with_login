@@ -21,7 +21,6 @@ public class PostingService {
 
     private final PostingRepository postingRepository;
 
-    ModelMapper modelMapper = new ModelMapper();
 
     @Transactional
     public Long createPosting(PostingRequestDto requestDto) {
@@ -77,6 +76,10 @@ public class PostingService {
 
     }
 
+    @Transactional
+    public void deleteAll() {
+        postingRepository.deleteAll();
+    }
 
 
 }
