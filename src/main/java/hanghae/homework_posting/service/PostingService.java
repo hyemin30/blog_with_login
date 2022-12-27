@@ -67,7 +67,7 @@ public class PostingService {
             postingRepository.deleteById(id);
             return "성공";
         } else {
-            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다");
+            return "비밀번호가 일치하지 않습니다";
         }
 
     }
