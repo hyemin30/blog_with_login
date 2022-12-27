@@ -2,7 +2,6 @@ package hanghae.homework_posting.service;
 
 import hanghae.homework_posting.dto.PostingRequestDto;
 import hanghae.homework_posting.dto.PostingResponse;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +23,6 @@ class PostingServiceTest {
     void afterEach() {
         postingService.deleteAll();
     }
-
 
     @Test
     void createPostingTest() {

@@ -1,5 +1,6 @@
 package hanghae.homework_posting.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import hanghae.homework_posting.dto.PostingRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,6 +23,7 @@ public class Posting extends TimeStamped {
     @Column(nullable = false)
     private String content;
     @Column(nullable = false, updatable = false)
+    @JsonIgnore
     private String password;
 
     public Posting(PostingRequestDto requestDto) {

@@ -2,18 +2,14 @@ package hanghae.homework_posting.service;
 
 import hanghae.homework_posting.dto.PostingRequestDto;
 import hanghae.homework_posting.dto.PostingResponse;
-import hanghae.homework_posting.dto.PostingResponseDto;
 import hanghae.homework_posting.entity.Posting;
 import hanghae.homework_posting.repository.PostingRepository;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -31,7 +27,7 @@ public class PostingService {
 
     @Transactional
     public List<PostingResponse> getPostings() {
-        List<Posting> postings = postingRepository.findAllByOrderByModifiedAtDesc();
+        List<Posting> postings = postingRepository.findAllByOrderByCreatedAtDesc();
         List<PostingResponse> responses = new ArrayList<>();
         for (Posting posting : postings) {
             responses.add(new PostingResponse(posting.getId(),posting));
