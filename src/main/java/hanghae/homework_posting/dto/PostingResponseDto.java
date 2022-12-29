@@ -6,7 +6,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class PostingResponse {
+public class PostingResponseDto {
     private String username;
     private String title;
     private String content;
@@ -16,7 +16,7 @@ public class PostingResponse {
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
-    public PostingResponse(Long id, Posting posting) {
+    public PostingResponseDto(Long id, Posting posting) {
         this.id = id;
         this.title = posting.getTitle();
         this.username = posting.getUsername();

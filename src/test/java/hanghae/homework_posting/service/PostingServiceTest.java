@@ -1,7 +1,7 @@
 package hanghae.homework_posting.service;
 
 import hanghae.homework_posting.dto.PostingRequestDto;
-import hanghae.homework_posting.dto.PostingResponse;
+import hanghae.homework_posting.dto.PostingResponseDto;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +11,6 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class PostingServiceTest {
@@ -49,7 +48,7 @@ class PostingServiceTest {
         postingService.createPosting(requestDto);
         postingService.createPosting(requestDto);
 
-        List<PostingResponse> postings = postingService.getPostings();
+        List<PostingResponseDto> postings = postingService.getPostings();
 
         assertThat(postings).size().isEqualTo(2);
     }
@@ -65,7 +64,7 @@ class PostingServiceTest {
         Long id = postingService.createPosting(requestDto);
         requestDto.setTitle("aaaaa");
 
-        PostingResponse update = postingService.update(id, requestDto);
+        PostingResponseDto update = postingService.update(id, requestDto);
 
         assertThat(update.getTitle()).isEqualTo(requestDto.getTitle());
     }
@@ -96,7 +95,7 @@ class PostingServiceTest {
 
         Long id = postingService.createPosting(requestDto);
 
-        PostingResponse posting = postingService.getPosting(id);
+        PostingResponseDto posting = postingService.getPosting(id);
         assertThat(posting.getUsername()).isEqualTo(requestDto.getUsername());
     }
 
