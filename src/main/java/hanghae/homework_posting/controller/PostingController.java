@@ -3,6 +3,7 @@ package hanghae.homework_posting.controller;
 import hanghae.homework_posting.dto.PostingRequestDto;
 import hanghae.homework_posting.dto.PostingResponseDto;
 import hanghae.homework_posting.service.PostingService;
+import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Api(tags = "게시글")
 @RestController
 @RequiredArgsConstructor
 public class PostingController {
@@ -21,12 +23,6 @@ public class PostingController {
     public String home() {
         return "this is home";
     }
-
-    // Entity의 변수명을 바꾸면 API 스펙 자체가 바뀜 예) username -> name
-    // Entity는 굉장히 여러 곳에서 쓰기 때문에.. 문제가 될 수 있음
-    // 조회 조건이 다 다를 수 있다(예, 비번 제외 등) 경우의 수마다 JsonIgnore??
-    // 결론 -> API 스펙을 위한 별도의 dto가 필요하다
-    // -> API 만들 떈 항상 엔티티를 파라미터로 받지 말 것. 엔티티 노출 금지
 
     @PostMapping("/postings")
     public PostingResponseDto createPosting(@RequestBody PostingRequestDto requestDto) {

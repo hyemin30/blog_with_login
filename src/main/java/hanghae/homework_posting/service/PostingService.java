@@ -3,6 +3,7 @@ package hanghae.homework_posting.service;
 import hanghae.homework_posting.dto.PostingRequestDto;
 import hanghae.homework_posting.dto.PostingResponseDto;
 import hanghae.homework_posting.entity.Posting;
+import hanghae.homework_posting.repository.MemberRepository;
 import hanghae.homework_posting.repository.PostingRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import java.util.List;
 public class PostingService {
 
     private final PostingRepository postingRepository;
+    private final MemberRepository memberRepository;
 
 
     @Transactional

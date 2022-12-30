@@ -2,6 +2,7 @@ package hanghae.homework_posting.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import hanghae.homework_posting.dto.PostingRequestDto;
+import io.swagger.annotations.ApiParam;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -14,6 +15,7 @@ public class Posting extends TimeStamped {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "posting_id")
     private Long id;
 
     @Column(nullable = false)
@@ -23,8 +25,11 @@ public class Posting extends TimeStamped {
     @Column(nullable = false)
     private String content;
     @Column(nullable = false, updatable = false)
-    @JsonIgnore
     private String password;
+
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     public Posting(PostingRequestDto requestDto) {
         this.username = requestDto.getUsername();
