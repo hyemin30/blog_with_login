@@ -6,6 +6,8 @@ import hanghae.homework_posting.service.PostingService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -54,8 +56,11 @@ public class PostingController {
     }
 
     @DeleteMapping("/postings/{id}")
-    public String deletePosting(@PathVariable Long id, @RequestBody PostingRequestDto requestDto) {
-        return postingService.deletePosting(id, requestDto);
+    public ResponseEntity<String> deletePosting(@PathVariable Long id, @RequestBody PostingRequestDto requestDto, HttpServletRequest request) {
+        if (!postingService.deletePosting(id, requestDto, request)) {
+            return new ResponseEntity<>("본인의 글만 삭제할 수 있습니다", HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>("삭제 성공", HttpStatus.CREATED);
     }
 
     @Data

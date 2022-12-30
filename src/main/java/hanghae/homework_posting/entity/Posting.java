@@ -23,8 +23,6 @@ public class Posting extends TimeStamped {
     private String title;
     @Column(nullable = false)
     private String content;
-    @Column(nullable = false, updatable = false)
-    private String password;
 
     @ManyToOne
     @JoinColumn(name = "member_id")
@@ -36,7 +34,6 @@ public class Posting extends TimeStamped {
         this.member = member;
         title = requestDto.getTitle();
         content = requestDto.getContent();
-        password = requestDto.getPassword();
     }
 
     public void update(PostingRequestDto requestDto) {
