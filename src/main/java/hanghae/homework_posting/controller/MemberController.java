@@ -1,7 +1,6 @@
 package hanghae.homework_posting.controller;
 
 import hanghae.homework_posting.dto.MemberRequestDto;
-import hanghae.homework_posting.dto.ResponseDto;
 import hanghae.homework_posting.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,15 +27,20 @@ public class MemberController {
             return new ResponseEntity<>("아이디는 영문소문자, 숫자 4~10자리, 비밀번호는 영문대소문자, 숫자 8~15자리로 입력하세요", HttpStatus.BAD_REQUEST);
         }
 
-        //비번 암호화하여 requestDto에 setPassword
         requestDto.setPassword(EncryptionUtils.encryptSHA256(requestDto.getPassword()));
-        log.info("암호화한 비번 ***************={}", requestDto.getPassword());
-
         memberService.createMember(requestDto);
 
         return new ResponseEntity<>("회원가입 성공", HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
-    public ResponseDto
+    public ResponseEntity<String> login(@RequestBody MemberRequestDto requestDto) {
+        requestDto.setPassword(EncryptionUtils.encryptSHA256(requestDto.getPassword()));
+
+        if (memberService.login(requestDto)) {
+            // jwt - 토큰 발급하여 Header 추가
+            return new ResponseEntity<>("로그인 성공", HttpStatus.CREATED);
+        }
+        return new ResponseEntity<>("로그인 실패", HttpStatus.BAD_REQUEST);
+    }
 }
