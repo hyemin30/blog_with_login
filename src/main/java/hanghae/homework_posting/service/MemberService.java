@@ -17,12 +17,19 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public MemberResponseDto createMember(MemberRequestDto requestDto) {
+    public boolean createMember(MemberRequestDto requestDto) {
+
+        List<Member> members = memberRepository.findAll();
+
+        for (Member member : members) {
+            if (member.getUsername().equals(requestDto.getUsername())) {
+                return false;
+            }
+        }
 
         Member member = new Member(requestDto);
-
-        Member savedMember = memberRepository.save(member);
-        return new MemberResponseDto(savedMember);
+        memberRepository.save(member);
+        return true;
     }
 
     public boolean login(MemberRequestDto requestDto) {

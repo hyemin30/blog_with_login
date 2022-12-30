@@ -28,8 +28,11 @@ public class MemberController {
         }
 
         requestDto.setPassword(EncryptionUtils.encryptSHA256(requestDto.getPassword()));
-        memberService.createMember(requestDto);
+        if (!memberService.createMember(requestDto)) {
+            log.info("뭐야-----------------------------------");
+            return new ResponseEntity<>("중복된 아이디가 있습니다", HttpStatus.BAD_REQUEST);
 
+        }
         return new ResponseEntity<>("회원가입 성공", HttpStatus.CREATED);
     }
 
@@ -39,6 +42,8 @@ public class MemberController {
 
         if (memberService.login(requestDto)) {
             // jwt - 토큰 발급하여 Header 추가
+
+
             return new ResponseEntity<>("로그인 성공", HttpStatus.CREATED);
         }
         return new ResponseEntity<>("로그인 실패", HttpStatus.BAD_REQUEST);
