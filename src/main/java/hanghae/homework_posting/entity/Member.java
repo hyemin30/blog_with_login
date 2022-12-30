@@ -1,14 +1,11 @@
 package hanghae.homework_posting.entity;
 
 import hanghae.homework_posting.dto.MemberRequestDto;
-import hanghae.homework_posting.dto.MemberResponseDto;
-import hanghae.homework_posting.dto.PostingRequestDto;
 import io.swagger.annotations.ApiParam;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,11 +19,9 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotNull
     @Column(nullable = false)
     private String username;
 
-    @NotNull
     @Column(nullable = false)
     private String password;
 

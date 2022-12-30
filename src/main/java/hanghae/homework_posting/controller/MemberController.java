@@ -18,12 +18,8 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/singup")
-    public MemberResponseDto createPosting(@RequestBody MemberRequestDto requestDto, BindingResult bindingResult) {
+    public MemberResponseDto createPosting(@RequestBody MemberRequestDto requestDto) {
 
-        if (bindingResult.hasErrors()) {
-            log.info("errors={}", bindingResult);
-            return new MemberResponseDto();
-        }
 
         String username = requestDto.getUsername();
         String password = requestDto.getPassword();

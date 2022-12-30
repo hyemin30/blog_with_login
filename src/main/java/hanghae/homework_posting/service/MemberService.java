@@ -21,6 +21,6 @@ public class MemberService {
         Member member = new Member(requestDto);
 
         Member savedMember = memberRepository.save(member);
-        return new MemberResponseDto();
+        return new MemberResponseDto(savedMember);
     }
 }
