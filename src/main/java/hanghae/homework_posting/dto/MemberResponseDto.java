@@ -10,7 +10,6 @@ public class MemberResponseDto {
     private String username;
     private String password;
 
-
     public MemberResponseDto(Member member) {
         username = member.getUsername();
         password = member.getPassword();

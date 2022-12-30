@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 @Api(tags = "게시글")
 @RestController
 @RequiredArgsConstructor
+@RequestMapping(produces = "application/json; charset=utf8")
 public class PostingController {
 
     private final PostingService postingService;
