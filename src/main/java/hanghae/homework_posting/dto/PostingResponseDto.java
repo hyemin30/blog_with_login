@@ -1,5 +1,6 @@
 package hanghae.homework_posting.dto;
 
+import hanghae.homework_posting.entity.Member;
 import hanghae.homework_posting.entity.Posting;
 import lombok.Data;
 
@@ -18,10 +19,10 @@ public class PostingResponseDto {
 
     public PostingResponseDto(Long id, Posting posting) {
         this.id = id;
-        this.title = posting.getTitle();
-        this.username = posting.getUsername();
-        this.content = posting.getContent();
-        this.createdAt = posting.getCreatedAt();
-        this.modifiedAt = posting.getModifiedAt();
+        title = posting.getTitle();
+        username = posting.getMember().getUsername();
+        content = posting.getContent();
+        createdAt = posting.getCreatedAt();
+        modifiedAt = posting.getModifiedAt();
     }
 }

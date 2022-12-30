@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,8 +25,8 @@ public class PostingController {
     }
 
     @PostMapping("/postings")
-    public PostingResponseDto createPosting(@RequestBody PostingRequestDto requestDto) {
-        Long id = postingService.createPosting(requestDto);
+    public PostingResponseDto createPosting(@RequestBody PostingRequestDto requestDto, HttpServletRequest request) {
+        Long id = postingService.createPosting(requestDto, request);
         return postingService.getPosting(id);
     }
 
@@ -42,8 +43,9 @@ public class PostingController {
     }
 
     @PutMapping("/postings/{id}")
-    public PostingResponseDto updatePosting(@PathVariable Long id, @RequestBody PostingRequestDto requestDto) {
-        return postingService.update(id, requestDto);
+    public PostingResponseDto updatePosting(@PathVariable Long id, @RequestBody PostingRequestDto requestDto, HttpServletRequest request) {
+
+        return postingService.update(id, requestDto, request);
     }
 
     @GetMapping("/postings/{id}")

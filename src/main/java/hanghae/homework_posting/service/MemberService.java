@@ -47,7 +47,6 @@ public class MemberService {
         String password = EncryptionUtils.encryptSHA256(requestDto.getPassword());
 
         Member member = memberRepository.findByUsername(username).orElse(new Member());
-        log.info("비번={}, 아이디={}",member.getPassword(), member.getUsername());
 
         if (!member.getPassword().equals(password) || member.getPassword().equals("0")) {
             return false;
