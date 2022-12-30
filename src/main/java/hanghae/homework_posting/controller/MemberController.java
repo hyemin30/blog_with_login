@@ -1,15 +1,22 @@
 package hanghae.homework_posting.controller;
 
 import hanghae.homework_posting.dto.MemberRequestDto;
+import hanghae.homework_posting.dto.MemberResponseDto;
 import hanghae.homework_posting.service.MemberService;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -19,8 +26,9 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    @PostMapping("/singup")
-    public ResponseEntity<String> createPosting(@Valid @RequestBody MemberRequestDto requestDto, BindingResult bindingResult) {
+//    @PostMapping("/singup")
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public ResponseEntity<String> createMember(@Valid @RequestBody MemberRequestDto requestDto, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             log.info(bindingResult.toString());
@@ -29,7 +37,6 @@ public class MemberController {
 
         requestDto.setPassword(EncryptionUtils.encryptSHA256(requestDto.getPassword()));
         if (!memberService.createMember(requestDto)) {
-            log.info("뭐야-----------------------------------");
             return new ResponseEntity<>("중복된 아이디가 있습니다", HttpStatus.BAD_REQUEST);
 
         }
@@ -37,10 +44,11 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody MemberRequestDto requestDto) {
+    @Transactional(readOnly = true)
+    public ResponseEntity<String> login(@RequestBody MemberRequestDto requestDto, HttpServletResponse response) {
         requestDto.setPassword(EncryptionUtils.encryptSHA256(requestDto.getPassword()));
 
-        if (memberService.login(requestDto)) {
+        if (memberService.login(requestDto, response)) {
             // jwt - 토큰 발급하여 Header 추가
 
 

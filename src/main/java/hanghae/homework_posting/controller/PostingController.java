@@ -3,7 +3,6 @@ package hanghae.homework_posting.controller;
 import hanghae.homework_posting.dto.PostingRequestDto;
 import hanghae.homework_posting.dto.PostingResponseDto;
 import hanghae.homework_posting.service.PostingService;
-import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Api(tags = "게시글")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(produces = "application/json; charset=utf8")
