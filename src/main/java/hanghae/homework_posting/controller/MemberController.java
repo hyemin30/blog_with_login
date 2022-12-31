@@ -32,7 +32,7 @@ public class MemberController {
 
         if (bindingResult.hasErrors()) {
             log.info(bindingResult.toString());
-            return new ResponseEntity<>("아이디는 영문소문자, 숫자 4~10자리, 비밀번호는 영문대소문자, 숫자 8~15자리로 입력하세요", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("아이디는 영문소문자, 숫자 4~10자리, 비밀번호는 영문대소문자, 숫자, 특수문자 8~15자리로 입력하세요", HttpStatus.BAD_REQUEST);
         }
 
         requestDto.setPassword(EncryptionUtils.encryptSHA256(requestDto.getPassword()));
