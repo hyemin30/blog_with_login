@@ -33,11 +33,6 @@ public class PostingController {
     }
 
     @GetMapping("/postings")
-    public List<PostingResponseDto> getPostings() {
-        return postingService.getPostings();
-    }
-
-    @GetMapping("/v2/postings")
     public Result membersV2() {
         //List로 바로 반환하는 것이 아니라 Result로 감싸서 반환한다 -> 유연성
         List<PostingResponseDto> postings = postingService.getPostings().stream().collect(Collectors.toList());

@@ -40,6 +40,7 @@ public class PostingService {
         }
 
         Posting posting = new Posting(requestDto, member);
+        posting.createPosting(member);
         postingRepository.save(posting);
         return posting.getId();
     }

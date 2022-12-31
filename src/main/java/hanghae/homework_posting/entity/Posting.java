@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -24,11 +26,12 @@ public class Posting extends TimeStamped {
     @Column(nullable = false)
     private String content;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
-
+    @OneToMany(mappedBy = "posting")
+    private List<Comment> comments = new ArrayList<>();
 
     public Posting(PostingRequestDto requestDto, Member member) {
         this.member = member;
@@ -42,9 +45,12 @@ public class Posting extends TimeStamped {
     }
 
     // 생성 메서드
-    public static Posting createPosting(Member member) {
+    public Posting createPosting(Member member) {
         Posting posting = new Posting();
         posting.setMember(member);
+        List<Posting> postings = member.getPostings();
+        postings.add(posting);
+        member.setPostings(postings);
         return posting;
     }
 }
