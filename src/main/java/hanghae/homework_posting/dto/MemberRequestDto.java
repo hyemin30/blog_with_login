@@ -27,10 +27,4 @@ public class MemberRequestDto {
     private MemberRole role = MemberRole.USER;
 
     private String adminToken = "";
-
-
-//    public MemberRequestDto(Member member) {
-//        username = member.getUsername();
-//        password = member.getPassword();
-//    }
 }
