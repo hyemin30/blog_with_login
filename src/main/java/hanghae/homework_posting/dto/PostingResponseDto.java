@@ -1,10 +1,12 @@
 package hanghae.homework_posting.dto;
 
+import hanghae.homework_posting.entity.Comment;
 import hanghae.homework_posting.entity.Member;
 import hanghae.homework_posting.entity.Posting;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 public class PostingResponseDto {
@@ -17,6 +19,7 @@ public class PostingResponseDto {
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
+
     public PostingResponseDto(Long id, Posting posting) {
         this.id = id;
         title = posting.getTitle();
@@ -24,5 +27,6 @@ public class PostingResponseDto {
         content = posting.getContent();
         createdAt = posting.getCreatedAt();
         modifiedAt = posting.getModifiedAt();
+
     }
 }

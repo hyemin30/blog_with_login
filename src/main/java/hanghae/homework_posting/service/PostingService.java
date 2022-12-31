@@ -1,5 +1,6 @@
 package hanghae.homework_posting.service;
 
+import hanghae.homework_posting.dto.CommentResponseDto;
 import hanghae.homework_posting.dto.PostingRequestDto;
 import hanghae.homework_posting.dto.PostingResponseDto;
 import hanghae.homework_posting.entity.Comment;
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Slf4j
@@ -49,13 +51,37 @@ public class PostingService {
         return posting.getId();
     }
 
-    @org.springframework.transaction.annotation.Transactional
-    public List<PostingResponseDto> getPostings() {
+    @Transactional
+    public List<Object> getPostings() {
         List<Posting> postings = postingRepository.findAllByOrderByCreatedAtDesc();
-        List<PostingResponseDto> responses = new ArrayList<>();
+        List<Object> responses = new ArrayList<>();
+        List<Comment> comments =new ArrayList<>();
+
         for (Posting posting : postings) {
+            comments = posting.getComments();
             responses.add(new PostingResponseDto(posting.getId(),posting));
+            for (Comment comment : comments) {
+                responses.add(new CommentResponseDto(comment));
+            }
+
         }
+        return responses;
+    }
+
+    @Transactional
+    public List<Object> getPosting(Long id) {
+        Posting posting = postingRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("게시글이 존재하지 않습니다")
+        );
+
+        List<Object> responses = new ArrayList<>();
+        List<Comment> comments = new ArrayList<>();
+
+            comments = posting.getComments();
+            responses.add(new PostingResponseDto(posting.getId(),posting));
+            for (Comment comment : comments) {
+                responses.add(new CommentResponseDto(comment));
+            }
         return responses;
     }
 
@@ -72,14 +98,6 @@ public class PostingService {
             return new PostingResponseDto(id, posting);
         }
         throw new IllegalArgumentException("본인의 글만 수정 가능합니다");
-    }
-
-    @Transactional
-    public PostingResponseDto getPosting(Long id) {
-        Posting posting = postingRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("아이디가 존재하지 않습니다")
-        );
-        return new PostingResponseDto(id, posting);
     }
 
     @Transactional

@@ -61,7 +61,7 @@ public class CommentService {
     }
 
     @Transactional
-    public boolean deleteComment(Long id, HttpServletRequest request) {  
+    public boolean deleteComment(Long id, HttpServletRequest request) {
         Claims claims = getClaims(request);
         String username = claims.getSubject();
 

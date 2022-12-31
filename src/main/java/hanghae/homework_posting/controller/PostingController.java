@@ -27,7 +27,7 @@ public class PostingController {
     }
 
     @PostMapping("/postings")
-    public PostingResponseDto createPosting(@RequestBody PostingRequestDto requestDto, HttpServletRequest request) {
+    public List<Object> createPosting(@RequestBody PostingRequestDto requestDto, HttpServletRequest request) {
         Long id = postingService.createPosting(requestDto, request);
         return postingService.getPosting(id);
     }
@@ -35,7 +35,7 @@ public class PostingController {
     @GetMapping("/postings")
     public Result membersV2() {
         //List로 바로 반환하는 것이 아니라 Result로 감싸서 반환한다 -> 유연성
-        List<PostingResponseDto> postings = postingService.getPostings().stream().collect(Collectors.toList());
+        List<Object> postings = postingService.getPostings().stream().collect(Collectors.toList());
         return new Result(postings);
     }
 
@@ -46,7 +46,7 @@ public class PostingController {
     }
 
     @GetMapping("/postings/{id}")
-    public PostingResponseDto getPosting(@PathVariable Long id) {
+    public List<Object> getPosting(@PathVariable Long id) {
         return postingService.getPosting(id);
     }
 
