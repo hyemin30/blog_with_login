@@ -51,8 +51,8 @@ public class PostingController {
     }
 
     @DeleteMapping("/postings/{id}")
-    public ResponseEntity<String> deletePosting(@PathVariable Long id, @RequestBody PostingRequestDto requestDto, HttpServletRequest request) {
-        if (!postingService.deletePosting(id, requestDto, request)) {
+    public ResponseEntity<String> deletePosting(@PathVariable Long id, HttpServletRequest request) {
+        if (!postingService.deletePosting(id, request)) {
             return new ResponseEntity<>("본인의 글만 삭제할 수 있습니다", HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>("삭제 성공", HttpStatus.CREATED);

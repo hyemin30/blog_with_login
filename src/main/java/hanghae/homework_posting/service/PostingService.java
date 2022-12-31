@@ -2,9 +2,12 @@ package hanghae.homework_posting.service;
 
 import hanghae.homework_posting.dto.PostingRequestDto;
 import hanghae.homework_posting.dto.PostingResponseDto;
+import hanghae.homework_posting.entity.Comment;
 import hanghae.homework_posting.entity.Member;
+import hanghae.homework_posting.entity.MemberRole;
 import hanghae.homework_posting.entity.Posting;
 import hanghae.homework_posting.jwt.JwtUtil;
+import hanghae.homework_posting.repository.CommentRepostiory;
 import hanghae.homework_posting.repository.MemberRepository;
 import hanghae.homework_posting.repository.PostingRepository;
 import io.jsonwebtoken.Claims;
@@ -24,6 +27,7 @@ public class PostingService {
 
     private final PostingRepository postingRepository;
     private final MemberRepository memberRepository;
+    private final CommentRepostiory commentRepostiory;
     private final JwtUtil jwtUtil;
 
 
@@ -63,7 +67,7 @@ public class PostingService {
         Posting posting = postingRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 게시글입니다")
         );
-        if (username.equals(posting.getMember().getUsername())) {
+        if (username.equals(posting.getMember().getUsername()) || posting.getMember().getRole().equals(MemberRole.ADMIN)) {
             posting.update(requestDto);
             return new PostingResponseDto(id, posting);
         }
@@ -79,7 +83,7 @@ public class PostingService {
     }
 
     @Transactional
-    public boolean deletePosting(Long id, PostingRequestDto requestDto, HttpServletRequest request) {
+    public boolean deletePosting(Long id, HttpServletRequest request) {
         Claims claims = getClaims(request);
         String username = claims.getSubject();
 
@@ -87,7 +91,13 @@ public class PostingService {
                 () -> new IllegalArgumentException("존재하지 않는 게시글입니다")
         );
 
-        if (username.equals(posting.getMember().getUsername())) {
+        if (username.equals(posting.getMember().getUsername()) || posting.getMember().getRole().equals(MemberRole.ADMIN)) {
+
+            List<Comment> comments = commentRepostiory.findAllByPostingId(id);
+            for (Comment comment : comments) {
+                commentRepostiory.delete(comment);
+            }
+
             postingRepository.delete(posting);
             return true;
         }
@@ -101,7 +111,7 @@ public class PostingService {
             if (jwtUtil.validateToken(token)) {
                 claims = jwtUtil.getUserInfoFromToken(token);
             } else {
-                throw new IllegalArgumentException("Token ERROR");
+                throw new IllegalArgumentException("토큰이 유효하지 않습니다");
             }
         }
         return claims;

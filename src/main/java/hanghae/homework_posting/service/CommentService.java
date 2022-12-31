@@ -3,9 +3,9 @@ package hanghae.homework_posting.service;
 import hanghae.homework_posting.dto.CommentRequestDto;
 import hanghae.homework_posting.dto.CommentResponseDto;
 import hanghae.homework_posting.dto.PostingRequestDto;
-import hanghae.homework_posting.dto.PostingResponseDto;
 import hanghae.homework_posting.entity.Comment;
 import hanghae.homework_posting.entity.Member;
+import hanghae.homework_posting.entity.MemberRole;
 import hanghae.homework_posting.entity.Posting;
 import hanghae.homework_posting.jwt.JwtUtil;
 import hanghae.homework_posting.repository.CommentRepostiory;
@@ -51,11 +51,27 @@ public class CommentService {
         String username = claims.getSubject();
         Comment comment = getComment(id);   // comment id로 댓글 조회
 
-        if (username.equals(comment.getMember().getUsername())) {
+
+
+        if (username.equals(comment.getMember().getUsername()) || comment.getMember().getRole().equals(MemberRole.ADMIN)) {
             comment.update(requestDto);
             return new CommentResponseDto(comment);
         }
         throw new IllegalArgumentException("본인의 댓글만 수정 가능합니다");
+    }
+
+    @Transactional
+    public boolean deleteComment(Long id, HttpServletRequest request) {  
+        Claims claims = getClaims(request);
+        String username = claims.getSubject();
+
+        Comment comment = getComment(id);
+
+        if (username.equals(comment.getMember().getUsername()) || comment.getMember().getRole().equals(MemberRole.ADMIN)) {
+            commentRepostiory.delete(comment);
+            return true;
+        }
+        return false;
     }
 
     private Comment getComment(Long id) {
@@ -95,9 +111,11 @@ public class CommentService {
             if (jwtUtil.validateToken(token)) {
                 claims = jwtUtil.getUserInfoFromToken(token);
             } else {
-                throw new IllegalArgumentException("Token ERROR");
+                throw new IllegalArgumentException("토큰이 유효하지 않습니다");
             }
         }
         return claims;
     }
+
+
 }
