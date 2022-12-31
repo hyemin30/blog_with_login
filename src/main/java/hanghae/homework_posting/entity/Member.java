@@ -36,6 +36,9 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<Posting> postings = new ArrayList<>();
 
+    @OneToMany(mappedBy = "member")
+    private List<Comment> comments = new ArrayList<>();
+
     public Member(MemberRequestDto requestDto) {
         username = requestDto.getUsername();
         password = requestDto.getPassword();

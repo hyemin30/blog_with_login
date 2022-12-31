@@ -11,9 +11,9 @@ import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,7 +45,7 @@ public class PostingService {
         return posting.getId();
     }
 
-    @Transactional
+    @org.springframework.transaction.annotation.Transactional
     public List<PostingResponseDto> getPostings() {
         List<Posting> postings = postingRepository.findAllByOrderByCreatedAtDesc();
         List<PostingResponseDto> responses = new ArrayList<>();
