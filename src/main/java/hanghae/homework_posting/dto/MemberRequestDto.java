@@ -1,6 +1,7 @@
 package hanghae.homework_posting.dto;
 
 import hanghae.homework_posting.entity.Member;
+import hanghae.homework_posting.entity.MemberRole;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,14 +15,22 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 public class MemberRequestDto {
 
+    @NotBlank
+    @NotNull
+    @Pattern(regexp = "(?=.*[0-9])(?=.*[a-z]).{4,10}")
     private String username;
     @NotBlank
     @NotNull
-    @Pattern(regexp = "(?=.*[0-9])(?=.*[a-zA-Z]).{8,15}")
+    @Pattern(regexp = "(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[~!@#$%^&*()_+=]).{8,15}")
     private String password;
 
-    public MemberRequestDto(Member member) {
-        username = member.getUsername();
-        password = member.getPassword();
-    }
+    private MemberRole role = MemberRole.USER;
+
+    private String adminToken = "";
+
+
+//    public MemberRequestDto(Member member) {
+//        username = member.getUsername();
+//        password = member.getPassword();
+//    }
 }
