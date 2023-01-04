@@ -23,7 +23,7 @@ public class Comment {
     private String content;
 
     //양방향으로 참조를 한 이유는 댓글 가져올 때, 원본 게시글 작성자도 가져오려구..
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "posting_id")
     private Posting posting;
 

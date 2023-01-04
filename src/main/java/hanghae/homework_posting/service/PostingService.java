@@ -51,17 +51,12 @@ public class PostingService {
     }
 
     @Transactional
-    public List<Object> getPostings() {
+    public List<PostingResponseDto> getPostings() {
         List<Posting> postings = postingRepository.findAllByOrderByCreatedAtDesc();
-        List<Object> responses = new ArrayList<>();
-        List<Comment> comments =new ArrayList<>();
+        List<PostingResponseDto> responses = new ArrayList<>();
 
         for (Posting posting : postings) {
-            comments = posting.getComments(); //해당 게시글의 댓글을 모두 가져온다
-            responses.add(new PostingResponseDto(posting.getId(),posting)); // 게시글을 먼저 add 하고
-            for (Comment comment : comments) {
-                responses.add(new CommentResponseDto(comment)); // 게시글에 딸린 댓글을 모두 add 한다
-            }
+            responses.add(new PostingResponseDto(posting.getId(),posting));
         }
         return responses;
     }
