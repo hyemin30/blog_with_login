@@ -11,6 +11,7 @@ import hanghae.homework_posting.jwt.JwtUtil;
 import hanghae.homework_posting.repository.CommentRepostiory;
 import hanghae.homework_posting.repository.MemberRepository;
 import hanghae.homework_posting.repository.PostingRepository;
+import hanghae.homework_posting.repository.PostingRepositoryImpl;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +30,7 @@ public class PostingService {
     private final PostingRepository postingRepository;
     private final MemberRepository memberRepository;
     private final CommentRepostiory commentRepostiory;
+    private final PostingRepositoryImpl postingRepositoryImpl;
     private final JwtUtil jwtUtil;
 
 
@@ -52,13 +54,15 @@ public class PostingService {
 
     @Transactional
     public List<PostingResponseDto> getPostings() {
-        List<Posting> postings = postingRepository.findAllByOrderByCreatedAtDesc();
-        List<PostingResponseDto> responses = new ArrayList<>();
+//        List<Posting> postings = postingRepository.findAllByOrderByCreatedAtDesc();
+//        List<PostingResponseDto> responses = new ArrayList<>();
+//
+//        for (Posting posting : postings) {
+//            responses.add(new PostingResponseDto(posting.getId(),posting));
+//        }
+//        return responses;
 
-        for (Posting posting : postings) {
-            responses.add(new PostingResponseDto(posting.getId(),posting));
-        }
-        return responses;
+        return postingRepositoryImpl.getPostings();
     }
 
     @Transactional
@@ -68,13 +72,8 @@ public class PostingService {
         );
 
         List<Object> responses = new ArrayList<>();
-        List<Comment> comments = new ArrayList<>();
 
-            comments = posting.getComments();
-            responses.add(new PostingResponseDto(posting.getId(),posting));
-            for (Comment comment : comments) {
-                responses.add(new CommentResponseDto(comment));
-            }
+        responses.add(new PostingResponseDto(posting));
         return responses;
     }
 
