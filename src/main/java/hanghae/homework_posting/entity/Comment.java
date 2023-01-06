@@ -31,6 +31,8 @@ public class Comment {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    private Integer likeCount = 0;
+
     public Comment(CommentRequestDto commentDto) {
         content = commentDto.getContent();
     }

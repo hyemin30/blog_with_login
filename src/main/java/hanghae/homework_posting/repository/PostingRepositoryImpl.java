@@ -15,25 +15,7 @@ public class PostingRepositoryImpl {
     @PersistenceContext
     EntityManager em;
 
-    public List<PostingResponseDto> getPostings() {
-        List<Posting> postings = em.createQuery("select distinct p from Posting p" +
-                " join fetch p.member" +
-                " left outer join fetch p.comments" +
-                " order by p.createdAt desc ", Posting.class).getResultList();
 
-        List<PostingResponseDto> responses = new ArrayList<>();
 
-        for (Posting posting : postings) {
-            responses.add(new PostingResponseDto(posting));
-        }
 
-        return responses;
-    }
-
-    public void likePosting(Long id) {
-        em.createQuery("update Posting p set likeCount = p.likeCount + 1" +
-                " where p.id = :id")
-                .setParameter("id", id)
-                .executeUpdate();
-    }
 }

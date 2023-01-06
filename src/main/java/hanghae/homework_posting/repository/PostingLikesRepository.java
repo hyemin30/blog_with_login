@@ -1,13 +1,11 @@
 package hanghae.homework_posting.repository;
 
 import hanghae.homework_posting.entity.PostingLikes;
+import hanghae.homework_posting.repository.custom_posting.CustomPostingLikesRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
-import java.util.List;
+public interface PostingLikesRepository extends JpaRepository<PostingLikes, Long>, CustomPostingLikesRepository {
 
-@Repository
-public interface PostingLikesRepository extends JpaRepository<PostingLikes, Long> {
+    PostingLikes findByMemberIdAndPostingId(Long memberId, Long postingId);
 
-    List<PostingLikes> findByMemberIdAndPostingId(Long memberId, Long postingId);
 }

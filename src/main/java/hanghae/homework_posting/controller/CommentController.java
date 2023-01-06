@@ -37,5 +37,13 @@ public class CommentController {
         return new ResponseEntity<>("삭제 성공", HttpStatus.CREATED);
     }
 
+    @PostMapping("/comments/{id}/like")
+    public ResponseEntity<String> likeComment(@PathVariable Long id, HttpServletRequest request) {
+        if (!commentService.likeComment(id, request)) {
+            return new ResponseEntity<>("좋아요 취소", HttpStatus.OK);
+        }
+        return new ResponseEntity<>("좋아요 성공", HttpStatus.OK);
+    }
+
 }
 

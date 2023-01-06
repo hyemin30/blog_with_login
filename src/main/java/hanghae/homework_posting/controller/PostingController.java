@@ -61,7 +61,7 @@ public class PostingController {
     @PostMapping("/postings/{id}/like")
     public ResponseEntity<String> likePosting(@PathVariable Long id, HttpServletRequest request) {
         if (!postingService.likePosting(id, request)) {
-            return new ResponseEntity<>("이미 좋아요 한 게시글 입니다", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("좋아요 취소", HttpStatus.OK);
         }
         return new ResponseEntity<>("좋아요 성공", HttpStatus.OK);
     }
