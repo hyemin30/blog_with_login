@@ -29,4 +29,11 @@ public class PostingRepositoryImpl {
 
         return responses;
     }
+
+    public void likePosting(Long id) {
+        em.createQuery("update Posting p set likeCount = p.likeCount + 1" +
+                " where p.id = :id")
+                .setParameter("id", id)
+                .executeUpdate();
+    }
 }

@@ -1,27 +1,27 @@
-//package hanghae.homework_posting.service;
-//
-//import hanghae.homework_posting.dto.PostingRequestDto;
-//import hanghae.homework_posting.dto.PostingResponseDto;
-//import org.junit.jupiter.api.AfterEach;
-//import org.junit.jupiter.api.Test;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.test.context.SpringBootTest;
-//
-//import java.util.List;
-//
-//import static org.assertj.core.api.Assertions.assertThat;
-//import static org.assertj.core.api.Assertions.assertThatThrownBy;
-//
-//@SpringBootTest
-//class PostingServiceTest {
-//
-//    @Autowired
-//    PostingService postingService;
-//
-//    @AfterEach
-//    void afterEach() {
-//        postingService.deleteAll();
-//    }
+package hanghae.homework_posting.service;
+
+import hanghae.homework_posting.dto.PostingRequestDto;
+import hanghae.homework_posting.dto.PostingResponseDto;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+@SpringBootTest
+class PostingServiceTest {
+
+    @Autowired
+    PostingService postingService;
+
+    @AfterEach
+    void afterEach() {
+        postingService.deleteAll();
+    }
 //
 //    @Test
 //    void createPostingTest() {
@@ -129,7 +129,9 @@
 //        assertThatThrownBy(() -> postingService.deletePosting(id, requestDto))
 //                .isInstanceOf(IllegalArgumentException.class);
 //    }
-//
-//
-//
-//}
+
+
+
+
+
+}

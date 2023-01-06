@@ -3,15 +3,9 @@ package hanghae.homework_posting.service;
 import hanghae.homework_posting.dto.CommentResponseDto;
 import hanghae.homework_posting.dto.PostingRequestDto;
 import hanghae.homework_posting.dto.PostingResponseDto;
-import hanghae.homework_posting.entity.Comment;
-import hanghae.homework_posting.entity.Member;
-import hanghae.homework_posting.entity.MemberRole;
-import hanghae.homework_posting.entity.Posting;
+import hanghae.homework_posting.entity.*;
 import hanghae.homework_posting.jwt.JwtUtil;
-import hanghae.homework_posting.repository.CommentRepostiory;
-import hanghae.homework_posting.repository.MemberRepository;
-import hanghae.homework_posting.repository.PostingRepository;
-import hanghae.homework_posting.repository.PostingRepositoryImpl;
+import hanghae.homework_posting.repository.*;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +25,9 @@ public class PostingService {
     private final MemberRepository memberRepository;
     private final CommentRepostiory commentRepostiory;
     private final PostingRepositoryImpl postingRepositoryImpl;
+    private final PostingLikesRepository likesRepository;
     private final JwtUtil jwtUtil;
+
 
 
     @Transactional
@@ -110,6 +106,24 @@ public class PostingService {
         }
         return false;
     }
+
+    @Transactional
+    public boolean likePosting(Long id, HttpServletRequest request) {
+        Claims claims = getClaims(request);
+        String username = claims.getSubject();
+        Member member = memberRepository.findByUsername(username).get();
+        Posting posting = postingRepository.findById(id).get();
+
+        List<PostingLikes> likes = likesRepository.findByMemberIdAndPostingId(member.getId(), id);
+        if (likes.size() == 0) {
+            PostingLikes postingLikes = new PostingLikes(posting, member);
+            likesRepository.save(postingLikes);
+            postingRepositoryImpl.likePosting(id);
+            return true;
+        }
+        return false;
+    }
+
     private Claims getClaims(HttpServletRequest request) {
         String token = jwtUtil.resolveToken(request);
         Claims claims = null;
