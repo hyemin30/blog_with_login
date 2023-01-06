@@ -51,9 +51,9 @@ public class CommentService {
         String username = claims.getSubject();
         Comment comment = getComment(id);   // comment id로 댓글 조회
 
+        Member member = memberRepository.findByUsername(username).get();
 
-
-        if (username.equals(comment.getMember().getUsername()) || comment.getMember().getRole().equals(MemberRole.ADMIN)) {
+        if (username.equals(comment.getMember().getUsername()) || member.getRole().equals(MemberRole.ADMIN)) {
             comment.update(requestDto);
             return new CommentResponseDto(comment);
         }
@@ -67,7 +67,9 @@ public class CommentService {
 
         Comment comment = getComment(id);
 
-        if (username.equals(comment.getMember().getUsername()) || comment.getMember().getRole().equals(MemberRole.ADMIN)) {
+        Member member = memberRepository.findByUsername(username).get();
+
+        if (username.equals(comment.getMember().getUsername()) || member.getRole().equals(MemberRole.ADMIN)) {
             commentRepostiory.delete(comment);
             return true;
         }

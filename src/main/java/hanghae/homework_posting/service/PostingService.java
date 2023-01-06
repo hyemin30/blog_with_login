@@ -54,14 +54,6 @@ public class PostingService {
 
     @Transactional
     public List<PostingResponseDto> getPostings() {
-//        List<Posting> postings = postingRepository.findAllByOrderByCreatedAtDesc();
-//        List<PostingResponseDto> responses = new ArrayList<>();
-//
-//        for (Posting posting : postings) {
-//            responses.add(new PostingResponseDto(posting.getId(),posting));
-//        }
-//        return responses;
-
         return postingRepositoryImpl.getPostings();
     }
 
@@ -85,7 +77,10 @@ public class PostingService {
         Posting posting = postingRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 게시글입니다")
         );
-        if (username.equals(posting.getMember().getUsername()) || posting.getMember().getRole().equals(MemberRole.ADMIN)) {
+
+        Member member = memberRepository.findByUsername(username).get();
+
+        if (username.equals(posting.getMember().getUsername()) || member.getRole().equals(MemberRole.ADMIN)) {
             posting.update(requestDto);
             return new PostingResponseDto(id, posting);
         }
@@ -101,7 +96,9 @@ public class PostingService {
                 () -> new IllegalArgumentException("존재하지 않는 게시글입니다")
         );
 
-        if (username.equals(posting.getMember().getUsername()) || posting.getMember().getRole().equals(MemberRole.ADMIN)) {
+        Member member = memberRepository.findByUsername(username).get();
+
+        if (username.equals(posting.getMember().getUsername()) || member.getRole().equals(MemberRole.ADMIN)) {
 
             List<Comment> comments = commentRepostiory.findAllByPostingId(id);
             for (Comment comment : comments) {
